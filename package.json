@@ -1,0 +1,11 @@
+{
+  "name": "storyblok-notion-integration",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@notionhq/client": "^1.0.1",
+    "dotenv": "^16.0.3"
+  }
+}
