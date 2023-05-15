@@ -1,28 +1,56 @@
 import { Client } from "@notionhq/client";
-import dotenv from 'dotenv';
+import StoryblokClient from "storyblok-js-client";
+import dotenv from "dotenv";
 dotenv.config();
 
-const notion = new Client({ auth: process.env.NOTION_KEY });
+const notionClient = new Client({ auth: process.env.NOTION_KEY });
+const storyblokClient = new StoryblokClient({
+    oauthToken: process.env.STORYBLOK_TOKEN,
+})
 
-const databaseId = process.env.NOTION_DATABASE_ID;
+/**
+ * -- Notion Ids
+ **/
+// const databaseId = process.env.NOTION_DATABASE_ID;
 const pageId = process.env.NOTION_PAGE_ID;
 
+/**
+ * -- Storyblok Ids
+ **/
+const spaceId = process.env.STORYBLOK_SPACE_ID;
 
-const getAllArticles = async () => {
-  /* const response = await notion.databases.query({
+/* const getAllArticles = async () => {
+  const response = await notionClient.databases.query({
     database_id: databaseId,
-  }); */
-}
+  });
+} */
 
-const getArticle = async () => {
+const migrateArticle = async () => {
   try {
-    const metadata = await notion.pages.retrieve({ page_id: pageId });
-    const content = await notion.blocks.children.list({ block_id: pageId });
-    console.log(metadata);
-    console.log(content);
+    const metadata = await notionClient.pages.retrieve({ page_id: pageId });
+
+    const title = metadata.properties.Title.title[0].plain_text;
+
+    await storyblokClient.post(`spaces/${spaceId}/stories/`, {
+      "story": {
+        "name": title,
+        "slug": title.replaceAll(' ', '-').toLowerCase(),
+        "content": {
+          "component": "page",
+          "link": {
+            "id": "",
+            "url": metadata.properties.Link.url,
+            "linktype": "url",
+            "fieldtype": "multilink",
+            "cached_url": metadata.properties.Link.url
+          }
+        }
+      },
+      "publish": 1
+    });
   } catch (error) {
     console.error(error.body);
   }
 }
 
-getArticle();
+migrateArticle();

@@ -6,6 +6,7 @@
   "main": "index.js",
   "dependencies": {
     "@notionhq/client": "^1.0.1",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "storyblok-js-client": "^5.10.5"
   }
 }

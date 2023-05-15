@@ -3,10 +3,12 @@ lockfileVersion: 5.4
 specifiers:
   '@notionhq/client': ^1.0.1
   dotenv: ^16.0.3
+  storyblok-js-client: ^5.10.5
 
 dependencies:
   '@notionhq/client': 1.0.4
   dotenv: 16.0.3
+  storyblok-js-client: 5.10.5
 
 packages:
 
@@ -83,6 +85,10 @@ packages:
         optional: true
     dependencies:
       whatwg-url: 5.0.0
+    dev: false
+
+  /storyblok-js-client/5.10.5:
+    resolution: {integrity: sha512-oqr0LbgObD1A6NWzKWXgsvFjLlPK2eJvQIAVpKNrv00teymykXaCdS+EL4d1SKcmHIT/o9I8pSvpjOg6F8tjfA==}
     dev: false
 
   /tr46/0.0.3:
